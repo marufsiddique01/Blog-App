@@ -17,7 +17,8 @@ const blogSchema = new Schema(
       required: true,
     },
     user: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },
@@ -25,3 +26,4 @@ const blogSchema = new Schema(
 )
 
 export default mongoose.model('Blog', blogSchema)
+// blogs

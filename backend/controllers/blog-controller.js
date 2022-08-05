@@ -1,4 +1,6 @@
+import mongoose from 'mongoose'
 import Blog from '../model/Blog'
+import User from '../model/User'
 
 export const getAllBlogs = async (req, res, next) => {
   let blogs
@@ -17,18 +19,41 @@ export const getAllBlogs = async (req, res, next) => {
 
 export const createBlog = async (req, res, next) => {
   const { title, description, image, user } = req.body
-  const newBlog = new Blog({
+
+  let existingUser
+
+  try {
+    existingUser = await User.findById(user)
+  } catch (error) {
+    return console.log(error)
+  }
+  if (!existingUser) {
+    return res.status(400).json({
+      message: 'User not found',
+    })
+  }
+
+  const blog = new Blog({
     title,
     description,
     image,
     user,
   })
   try {
-    await newBlog.save()
+    const session = await mongoose.startSession()
+    session.startTransaction()
+    await blog.save({ session })
+    existingUser.blogs.push(blog)
+    await existingUser.save({ session })
+    await session.commitTransaction()
+    // await newBlog.save()
   } catch (error) {
-    return console.log(error)
+    console.log(error)
+    return res.status(500).json({
+      message: error,
+    })
   }
-  return res.status(201).json({ newBlog })
+  return res.status(200).json({ blog })
 }
 
 export const updateBlog = async (req, res, next) => {
