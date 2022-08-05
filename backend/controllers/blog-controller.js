@@ -97,7 +97,9 @@ export const deleteBlog = async (req, res, next) => {
   const blogID = req.params.id
   let blog
   try {
-    blog = await Blog.findByIdAndDelete(blogID)
+    blog = await Blog.findByIdAndDelete(blogID).populate('user')
+    await blog.user.blogs.pull(blog)
+    await blog.user.save()
   } catch (error) {
     return console.log(error)
   }
@@ -106,5 +108,21 @@ export const deleteBlog = async (req, res, next) => {
       message: 'No blog found',
     })
   }
-  return res.status(200).json({ blog: blog })
+  return res.status(200).json({ message: 'Deleted Successfully', blog: blog })
+}
+
+export const getByUserID = async (req, res, next) => {
+  const userID = req.params.id
+  let userBlogs
+  try {
+    userBlogs = await User.findById(userID).populate('blogs')
+  } catch (error) {
+    return console.log(error)
+  }
+  if (!userBlogs) {
+    return res.status(404).json({
+      message: 'No blogs found',
+    })
+  }
+  return res.status(200).json({ userBlogs: userBlogs })
 }
