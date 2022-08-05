@@ -7,13 +7,19 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 dotenv.config()
 
+import router from './routes/user-routes'
+
 // create express app
 const app = express()
 
 // all middlewares
-app.use('/', (req, res, next) => {
-  res.send('Hello World')
-})
+// app.use('/', (req, res, next) => {
+//   res.send('Hello World')
+// })
+app.use(express.json())
+// app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use('/api/user', router)
 
 // define port
 // app.listen(5000)
