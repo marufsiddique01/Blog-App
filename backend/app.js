@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import router from './routes/user-routes'
+import blogRouter from './routes/blog-routes'
 
 // create express app
 const app = express()
@@ -20,6 +21,7 @@ app.use(express.json())
 // app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/api/user', router)
+app.use('/api/blog', blogRouter)
 
 // define port
 // app.listen(5000)
