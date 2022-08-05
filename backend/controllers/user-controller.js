@@ -48,3 +48,30 @@ export const signUp = async (req, res, next) => {
   }
   return res.status(201).json({ newUser })
 }
+
+export const login = async (req, res, next) => {
+  const { email, password } = req.body
+
+  let existingUser
+  try {
+    existingUser = await User.findOne({ email })
+  } catch (error) {
+    console.log(error)
+  }
+
+  if (!existingUser) {
+    return res.status(404).json({
+      message: 'User not Found, SignUp Instead',
+    })
+  }
+
+  const isPasswordValid = bcrypt.compareSync(password, existingUser.password)
+  if (!isPasswordValid) {
+    return res.status(400).json({
+      message: 'Invalid Password',
+    })
+  }
+  return res.status(200).json({ message: 'Login Successful' })
+
+  // console.log(existingUser)
+}
