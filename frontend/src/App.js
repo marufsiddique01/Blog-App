@@ -6,8 +6,11 @@ import Blogs from './Components/Blogs'
 import UserBlogs from './Components/UserBlogs'
 import BlogDetails from './Components/BlogDetails'
 import AddBlog from './Components/AddBlog'
+import { useSelector } from 'react-redux'
 
 function App() {
+  const isLoggedIn = useSelector((state) => state.isLoggedIn)
+  // console.log(isLoggedIn)
   return (
     <React.Fragment>
       <header>
@@ -17,9 +20,9 @@ function App() {
         <Routes>
           <Route path='/auth' element={<Auth />} />
           <Route path='/blogs' element={<Blogs />} />
+          <Route path='/blogs/add' element={<AddBlog />} />
           <Route path='/myBlogs' element={<UserBlogs />} />
           <Route path='/myBlogs/:id' element={<BlogDetails />} />
-          <Route path='/blogs/add' element={<AddBlog />} />
         </Routes>
       </main>
     </React.Fragment>
