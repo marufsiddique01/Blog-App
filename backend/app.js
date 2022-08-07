@@ -10,6 +10,8 @@ dotenv.config()
 import router from './routes/user-routes'
 import blogRouter from './routes/blog-routes'
 
+import cors from 'cors'
+
 // create express app
 const app = express()
 
@@ -18,6 +20,7 @@ const app = express()
 //   res.send('Hello World')
 // })
 app.use(express.json())
+app.use(cors())
 // app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use('/api/user', router)
