@@ -15,7 +15,7 @@ const Blogs = () => {
   }, [])
   // console.log(blogs)
 
-  return <div>{blogs && blogs.map((blog, index) => <Blog title={blog.title} description={blog.description} image={blog.imageURL} userName={blog.user.user} time={blog.updatedAt} />)}</div>
+  return <div>{blogs && blogs.map((blog, index) => <Blog title={blog.title} description={blog.description}  image={blog.image} userName={blog.user.user} time={blog.updatedAt} />)}</div>
 }
 
 export default Blogs
