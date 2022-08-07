@@ -30,12 +30,13 @@ const Auth = () => {
       })
       .catch((err) => console.log(err))
     const data = await res.data
+    console.log(data)
     return data
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(inputs)
+    // console.log(inputs)
     if (isSignUp) {
       sendRequest('signup')
         .then(() => dispatch(authActions.login()))

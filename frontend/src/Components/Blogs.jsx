@@ -13,13 +13,9 @@ const Blogs = () => {
   useEffect(() => {
     sendRequest().then((data) => setBlogs(data.blogs))
   }, [])
-  console.log(blogs)
+  // console.log(blogs)
 
-  return (
-    <div>
-      <Blog />
-    </div>
-  )
+  return <div>{blogs && blogs.map((blog, index) => <Blog title={blog.title} description={blog.description} image={blog.imageURL} userName={blog.user.user} time={blog.updatedAt} />)}</div>
 }
 
 export default Blogs
